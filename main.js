@@ -30,7 +30,6 @@ form.addEventListener("submit", (e) => {
 
   // create new dom element using JavaScript
   let li = document.createElement("li");
-  var stuff = document.createElement("li");
 
   // add the nevessary classes to the list element
   li.classList.add("list-group-item");
@@ -44,36 +43,34 @@ form.addEventListener("submit", (e) => {
   // add the item into the unordered list
   todoListElement.appendChild(li);
 
-  // Local Storage
-  let todoStorage = localStorage.getItem("todoListElement")
-    ? JSON.parse(localStorage.getItem("todoListElement"))
-    : [];
+  // Adding todo items into LOCAL STORAGE
+  let todoStorage = localStorage.getItem("todoListElement") ? JSON.parse(localStorage.getItem("todoListElement")) : [];
   todoStorage.push(input.value);
   localStorage.setItem("todoListElement", JSON.stringify(todoStorage));
-  const getTodos = JSON.parse(localStorage.getItem("todoListElement"));
-  console.log(getTodos);
 
   // clear the todo input field text
   input.value = "";
 });
-// Create a new todo using localstorage
-  const newTodoBuilder = (text) => {
-    const todo = document.createElement("li");
-    todoListElement.appendChild(todo);
-    stuff.classList.add("list-group-item");
-    stuff.innerText = localStorage.getItem("todoListElement");
-    createEvents(stuff);
-  };
-var createNewTodo = () => {
-  const getNewTodos = JSON.parse(localStorage.getItem("todoListElement"));
-  getNewTodos.forEach((todo) => {
-    newTodoBuilder(todo);
-  });
+// Helper function to create a new todo list
+const newTodoBuilder = (item) => {
+  let stuff = document.createElement("li");
+  stuff.classList.add("list-group-item");
+  stuff.innerText = item
+  createEvents(stuff);
+  todoListElement.appendChild(stuff);
 };
-
+// For...of loop to iterate the todo items in local storage and add properties from newTodoBuilder
+var createNewTodo = () => {
+  let getNewTodos = JSON.parse(localStorage.getItem("todoListElement"));
+  for (const todo of getNewTodos) {
+    newTodoBuilder(todo);
+  }
+};
+// Created a function to delete all todo items in list
 var deleteItems = () => {
   while (todoListElement.hasChildNodes()){
     todoListElement.removeChild(todoListElement.firstChild);
   }
   localStorage.clear();
+  alert('Local Storage has been cleared!')
 }
