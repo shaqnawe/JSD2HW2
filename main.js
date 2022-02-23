@@ -62,6 +62,7 @@ const newTodoBuilder = (item) => {
 // For...of loop to iterate the todo items in local storage and add properties from newTodoBuilder
 var createNewTodo = () => {
   let getNewTodos = JSON.parse(localStorage.getItem("todoListElement"));
+  console.log(getNewTodos);
   for (const todo of getNewTodos) {
     newTodoBuilder(todo);
   }
